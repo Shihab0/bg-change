@@ -1,3 +1,4 @@
+let div = null;
 //step -1
 window.onload = () => {
   main();
@@ -20,6 +21,12 @@ function main() {
 
   copyBtn.addEventListener("click", function () {
     window.navigator.clipboard.writeText(hexCode.value);
+    if (div != null) {
+      div.remove();
+      div = null;
+    }
+
+    generateToastMessage(`${hexCode.value}` + " copied");
   });
 }
 
@@ -38,4 +45,21 @@ function generateHex() {
   const blue = Math.floor(Math.random() * 255);
 
   return `#${red.toString(16)}${green.toString(16)}${blue.toString(16)}`;
+}
+
+function generateToastMessage(msg) {
+  div = document.createElement("div");
+  div.innerText = msg;
+  div.className = "toast-message toast-message-slide-in";
+  div.addEventListener("click", function () {
+    div.classList.remove("toast-message-slide-in");
+    div.classList.add("toast-message-slide-out");
+
+    div.addEventListener("animationend", function () {
+      div.remove();
+      div = null;
+    });
+  });
+
+  document.body.appendChild(div);
 }
