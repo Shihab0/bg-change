@@ -5,9 +5,9 @@ window.onload = () => {
 };
 function main() {
   const root = document.getElementById("root");
+  const output = document.getElementById("output");
   const btn = document.getElementById("change-btn");
   const colorCode = document.getElementById("colorCode");
-  const hexCode = document.getElementById("hexCode");
   const copyBtn = document.getElementById("copy-btn");
 
   btn.addEventListener("click", function () {
@@ -16,17 +16,32 @@ function main() {
     colorCode.innerText = bgColor;
 
     const hexColor = generateHex();
-    hexCode.value = hexColor;
+    output.value = hexColor.substring(1).toUpperCase();
+  });
+
+  output.addEventListener("keyup", function (e) {
+    const color = e.target.value;
+
+    if (color) {
+      output.value = color.toUpperCase();
+      if (isValidHex(color)) {
+        root.style.backgroundColor = `#${color}`;
+      }
+    }
   });
 
   copyBtn.addEventListener("click", function () {
-    window.navigator.clipboard.writeText(hexCode.value);
     if (div != null) {
       div.remove();
       div = null;
     }
 
-    generateToastMessage(`${hexCode.value}` + " copied");
+    if (isValidHex(output.value)) {
+      window.navigator.clipboard.writeText(`#${output.value}`);
+      generateToastMessage(`#${output.value}` + " copied");
+    } else {
+      alert("Invalid color code.");
+    }
   });
 }
 
@@ -62,4 +77,14 @@ function generateToastMessage(msg) {
   });
 
   document.body.appendChild(div);
+}
+
+/**
+ *
+ * @param {string} color
+ */
+
+function isValidHex(color) {
+  if (color.length !== 6) return false;
+  return /^[0-9A-Fa-f]{6}$/i.test(color);
 }
