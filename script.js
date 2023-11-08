@@ -11,11 +11,12 @@ function main() {
   const copyBtn = document.getElementById("copy-btn");
 
   btn.addEventListener("click", function () {
-    const bgColor = generateRgb();
+    const color = generateDecimal();
+    const bgColor = generateRgb(color);
     root.style.backgroundColor = bgColor;
-    colorCode.innerText = bgColor;
+    colorCode.value = bgColor;
 
-    const hexColor = generateHex();
+    const hexColor = generateHex(color);
     output.value = hexColor.substring(1).toUpperCase();
   });
 
@@ -47,19 +48,24 @@ function main() {
 
 //step - 2
 
-function generateRgb() {
+function generateDecimal() {
   const red = Math.floor(Math.random() * 255);
   const green = Math.floor(Math.random() * 255);
   const blue = Math.floor(Math.random() * 255);
 
+  return { red, green, blue };
+}
+
+function generateRgb({ red, green, blue }) {
   return `rgba(${red}, ${green}, ${blue})`;
 }
-function generateHex() {
-  const red = Math.floor(Math.random() * 255);
-  const green = Math.floor(Math.random() * 255);
-  const blue = Math.floor(Math.random() * 255);
+function generateHex({ red, green, blue }) {
+  function getTwoCode(value) {
+    const hex = value.toString(16);
+    return hex.length === 1 ? `0${hex}` : hex;
+  }
 
-  return `#${red.toString(16)}${green.toString(16)}${blue.toString(16)}`;
+  return `#${getTwoCode(red)}${getTwoCode(green)}${getTwoCode(blue)}`;
 }
 
 function generateToastMessage(msg) {

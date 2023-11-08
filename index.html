@@ -9,11 +9,22 @@
   </head>
   <body class="container" id="root">
     <h1>Change background color by clicking button.</h1>
-    <p id="colorCode">Color rgba code</p>
+    <p>Hex Code</p>
     <div class="input-group">
       <div class="input-icon">#</div>
       <input id="output" type="text" placeholder="Color Hex Code" />
       <button id="copy-btn">Copy</button>
+    </div>
+    <p>Rgb code</p>
+    <div class="input-group">
+      <input
+        id="colorCode"
+        type="text"
+        class="inputField"
+        placeholder="Color rgb Code"
+        disabled
+      />
+      <button id="copy-btn2">Copy</button>
     </div>
     <button id="change-btn">Change background</button>
   </body>
