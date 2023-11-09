@@ -31,6 +31,7 @@ body {
 }
 .inputField {
   padding: 0 15px;
+  color: #000;
 }
 .input-icon {
   position: absolute;

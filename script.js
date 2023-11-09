@@ -7,14 +7,15 @@ function main() {
   const root = document.getElementById("root");
   const output = document.getElementById("output");
   const btn = document.getElementById("change-btn");
-  const colorCode = document.getElementById("colorCode");
+  const output2 = document.getElementById("colorCode");
   const copyBtn = document.getElementById("copy-btn");
+  const copyBtn2 = document.getElementById("copy-btn2");
 
   btn.addEventListener("click", function () {
     const color = generateDecimal();
     const bgColor = generateRgb(color);
     root.style.backgroundColor = bgColor;
-    colorCode.value = bgColor;
+    output2.value = bgColor;
 
     const hexColor = generateHex(color);
     output.value = hexColor.substring(1).toUpperCase();
@@ -27,7 +28,16 @@ function main() {
       output.value = color.toUpperCase();
       if (isValidHex(color)) {
         root.style.backgroundColor = `#${color}`;
+        const rgbDecimal = changeRgbCode(color);
+        output2.value = rgbDecimal;
       }
+    }
+
+    function changeRgbCode(color) {
+      const red = parseInt(color.slice(0, 2), 16);
+      const green = parseInt(color.slice(2, 4), 16);
+      const blue = parseInt(color.slice(4, 6), 16);
+      return `rgb(${red},${green},${blue})`;
     }
   });
 
@@ -40,6 +50,20 @@ function main() {
     if (isValidHex(output.value)) {
       window.navigator.clipboard.writeText(`#${output.value}`);
       generateToastMessage(`#${output.value}` + " copied");
+    } else {
+      alert("Invalid color code.");
+    }
+  });
+
+  copyBtn2.addEventListener("click", function () {
+    if (div != null) {
+      div.remove();
+      div = null;
+    }
+
+    if (isValidHex(output.value)) {
+      window.navigator.clipboard.writeText(`${output2.value}`);
+      generateToastMessage(`${output2.value}` + " copied");
     } else {
       alert("Invalid color code.");
     }
@@ -57,7 +81,7 @@ function generateDecimal() {
 }
 
 function generateRgb({ red, green, blue }) {
-  return `rgba(${red}, ${green}, ${blue})`;
+  return `rgb(${red}, ${green}, ${blue})`;
 }
 function generateHex({ red, green, blue }) {
   function getTwoCode(value) {
